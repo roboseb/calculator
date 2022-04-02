@@ -25,8 +25,10 @@ body {
 
 #calcBtnContainer>button{
     background-color: #E07A5F;
-    font-size: 30px;
+    font-size: 40px;
     border-color: black;
+    border-width: 5px;
+    border-radius: 10px;
 }
 
 #calcBtnContainer>button:hover {
@@ -39,15 +41,27 @@ body {
     align-items: center;
 }
 
-#result {
+#resultbox {
     background-color: #81B29A;
     margin-bottom:20px;
-    height: 120px;
-    width: 500px;
+    width: 490px;
+    height:106px;
     text-align: center;
     align-items: center;
+    border-style: solid;
+    border-width: 5px;
+    border-radius: 10px;
+    font-size: 60px;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#result{
+    text-align: center;
+    padding:5px 0px 5px;
 }
 
 h1 {
-    margin:20px;
+    margin:40px;
 }

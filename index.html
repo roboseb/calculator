@@ -6,28 +6,41 @@
         <link rel="stylesheet" href="styles.css">
     </head>
     <body>
-        <h1>Congratulations! You have encountered a calculator!</h1>
         <div id="calculator">
+            <div id ="labelbox">
+                <div id="calclabel">SEBCALC 3</div>
+                <div id="imgbox">
+                    <img class="default" src="images/default1.png">
+                    <img class="default" src="images/default2.png">
+                    <img class="happy" src="images/happy1.png">
+                    <img class="happy" src="images/happy2.png">
+                    <img class="angry" src="images/angry1.png">
+                    <img class="angry" src="images/angry2.png">
+                    <img class="error" src="images/error1.png">
+                    <img class="error" src="images/error2.png">
+                </div>                 
+            </div>
+            
             <div id="resultbox">
                 <div id=result></div>
             </div>
             <div id="calcBtnContainer">
                 <button id="ac">AC</button>
-                <button id="÷">÷</button>
-                <button id="7">7</button>
-                <button id="8">8</button>
-                <button id="9">9</button>
-                <button id="×">×</button>
-                <button id="4">4</button>
-                <button id="5">5</button>
-                <button id="6">6</button>
-                <button id="-">-</button>
-                <button id="1">1</button>
-                <button id="2">2</button>
-                <button id="3">3</button>
-                <button id="+">+</button>
-                <button id="0">0</button>
-                <button id=".">.</button>
+                <button id="÷" class="operator"><div id="shadow"></div>÷</button>
+                <button id="7" class="number">7</button>
+                <button id="8" class="number">8</button>
+                <button id="9" class="number">9</button>
+                <button id="×" class="operator">×</button>
+                <button id="4" class="number">4</button>
+                <button id="5" class="number">5</button>
+                <button id="6" class="number">6</button>
+                <button id="-" class="operator">-</button>
+                <button id="1" class="number">1</button>
+                <button id="2" class="number">2</button>
+                <button id="3" class="number">3</button>
+                <button id="+" class="operator">+</button>
+                <button id="0" class="number">0</button>
+                <button id="." class="number">.</button>
                 <button id="equals">=</button>
             </div>
         </div>

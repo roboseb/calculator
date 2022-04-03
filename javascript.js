@@ -43,10 +43,11 @@ buttons.forEach(button => {
         let text = result.innerText;
         let lastChar = text.charAt(text.length-1)
         //Prevent entering excess digits.
-        if (text.length >= 14 && button.id !== 'ac') {
+        if (text.length >= 14 && button.id !== 'ac' && 
+            button.id !== 'equals' && button.id !== "backspace") {
             return;
         }
-        if (!isNaN(button.id) || button.id === ".") {
+        if (!isNaN(button.id)) {
             //Add a space before a number if the previous character was a math sign.
             if (lastChar === "×" || 
                 lastChar === "-" || 
@@ -58,18 +59,31 @@ buttons.forEach(button => {
                 result.innerText += button.id;
                 emote = 'default';
             }
-        } else if (button.id === "×" || button.id === "-" || button.id === "+" || button.id === "÷"){
+        } else if (button.id === "×" || button.id === "-" || button.id === "+" || button.id === "÷" || button.id === '.'){
             //Do not enter symbol if result box is empty,
             //or if last character was also a symbol.
-            if (!lastChar || lastChar === "×" || lastChar === "-" || lastChar === "+" || lastChar === "÷") {
+            console.log(lastChar);
+            if (!lastChar || lastChar === "×" || lastChar === "-" || lastChar === "+" || lastChar === "÷" || lastChar === '.') {
                 emote = 'angry'
                 return;
             }
+            if (button.id === '.') {
+
+                //Prevent enter several decimal points in one number.
+                let splitResult = result.innerText.split(' ');
+                if (splitResult[splitResult.length - 1].indexOf('.') > 0) {
+                    emote = 'angry';
+                    return;
+                }
+                result.innerText += (`${button.id}`);
+                return;
+            }
+
             result.innerText += (` ${button.id}`);
         } else if (button.id === "ac") {
             result.innerText = "";
             emote = 'default';
-        } else {
+        } else if (button.id === "equals") {
             //Do not process if equation ends with a symbol.
             if (isNaN(lastChar)) {
                 emote = 'angry';
@@ -77,13 +91,82 @@ buttons.forEach(button => {
             }
             emote = 'happy';
             result.innerText = process(text);
-            
-            
+        } else if (button.id === "backspace") {
+            if (text === "") {
+                emote = "angry";
+            }
+            console.log(text.length)
+            result.innerText = text.slice(0,text.length-1);
+        
         }
     });
 });
 
-let test = "10 - 4 ÷ 2";
+//Keyboard support.
+document.addEventListener('keydown' , key => {
+    let text = result.innerText;
+    let lastChar = text.charAt(text.length-1)
+    //Prevent entering excess digits.
+    if (text.length >= 14 &&  key.key !== 'Delete' && 
+        key.key !== 'Enter' && key.key !== "Backspace") {
+        return;
+    }
+    if (!isNaN(key.key)) {
+        //Add a space before a number if the previous character was a math sign.
+        if (lastChar === "×" || 
+            lastChar === "-" || 
+            lastChar === "+" || 
+            lastChar === "÷") {
+            result.innerText += ` ${key.key}`;
+            emote = 'default';
+        } else {
+            result.innerText += key.key;
+            emote = 'default';
+        }
+    } else if (key.key === "*" || key.key === "-" || key.key === "+" || key.key === "/" || key.key === '.'){
+        //Do not enter symbol if result box is empty,
+        //or if last character was also a symbol.
+        if (!lastChar || lastChar === "×" || lastChar === "-" || lastChar === "+" || lastChar === "÷" || lastChar === '.') {
+            emote = 'angry'
+            return;
+        }
+        if (key.key === '.') {
+
+            //Prevent enter several decimal points in one number.
+            let splitResult = result.innerText.split(' ');
+            if (splitResult[splitResult.length - 1].indexOf('.') > 0) {
+                emote = 'angry';
+                return;
+            }
+            result.innerText += (`${key.key}`);
+            return;
+        }
+
+        if (key.key === "-" || key.key === "+") {
+            result.innerText += (` ${key.key}`);
+        } else {
+            (key.key === "*") ? result.innerText += " ×" : result.innerText += " ÷";
+        }
+    } else if (key.key === "Delete") {
+        result.innerText = "";
+        emote = 'default';
+    } else if (key.key === "Enter") {
+        //Do not process if equation ends with a symbol.
+        if (isNaN(lastChar)) {
+            emote = 'angry';
+            return;
+        }
+        emote = 'happy';
+        result.innerText = process(text);
+    } else if (key.key === "Backspace") {
+        if (text === "") {
+            emote = "angry";
+        }
+        result.innerText = text.slice(0,text.length-1);
+    
+    }
+});
+
 function process(equation) {
     let splitEquation = equation.split(" ");
     for (let i = 0; i < splitEquation.length; i++) {
@@ -131,7 +214,15 @@ function process(equation) {
         }
     }
 
-    return splitEquation;
+    //Limit total result length, then round last decimal 
+    //to based on leftover result screen space.
+    let stringInt = splitEquation[0].toString();
+    if (stringInt.length > 14) {
+        stringInt = stringInt.slice(0,15);
+        let intArray = stringInt.split('.');
+        stringInt = Number(stringInt).toFixed(intArray[1].length-1);
+    }
+    return stringInt;
    
 }
 
@@ -158,15 +249,17 @@ function carousel() {
     slideIndex++;
     if (slideIndex > pumps.length) {slideIndex = 1}
 
-    console.log(pumps);
-    console.log(slideIndex);
-    console.log(pumps.length)
-
     pumps[slideIndex-1].style.display = "block";
     setTimeout(carousel,500);
 }
 
 carousel();
+
+//Close welcome message on click.
+let message = document.getElementById('message');
+message.addEventListener('click', () => {
+    message.style.display = "none";
+});
 
 
 

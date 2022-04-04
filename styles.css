@@ -2,7 +2,7 @@ body {
     display:flex;
     flex-direction: column;
     align-items: center;
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-family: 'Open Sans', 'Righteous', cursive;
     background-color: #F4F1DE;
     margin:0;
 }
@@ -46,6 +46,7 @@ body {
 }
 
 #calcBtnContainer>button {
+    font-family: 'Open Sans', 'Righteous', cursive;
     font-size: 40px;
     border-color: black;
     border-width: 5px;
@@ -63,12 +64,11 @@ body {
     animation-duration: .25s;
     background-color: #F2CC8F;
     color: black;
-    filter:drop-shadow(0px -5px 10px black );
 }
 
 @keyframes acequalshover {
-    from {background-color: #3D405B; color: white; filter:drop-shadow(0px 0px 0px black);}
-    to {background-color:#F2CC8F; color: black; filter:drop-shadow(0px -5px 10px black);}
+    from {background-color: #3D405B; color: white;}
+    to {background-color:#F2CC8F; color: black;}
 }
 
 .number{
@@ -79,12 +79,11 @@ body {
     animation-name: numberhover;
     animation-duration: .25s;
     background-color: #606278;
-    filter:drop-shadow(0px -5px 10px black );
 }
 
 @keyframes numberhover {
-    from {background-color: #E07A5F; filter:drop-shadow(0px 0px 0px black);}
-    to {background-color:#606278; filter:drop-shadow(0px -5px 10px black);}
+    from {background-color: #E07A5F;}
+    to {background-color:#606278;}
 }
 
 .operator {
@@ -96,13 +95,12 @@ body {
     animation-name: operatorhover;
     animation-duration: 0.25s;
     background-color:#606278;
-    filter:drop-shadow(0px -5px 10px black);
     
 }
 
 @keyframes operatorhover {
-    from {background-color: #F2CC8F; filter:drop-shadow(0px 0px 0px black);}
-    to {background-color:#606278; filter:drop-shadow(0px -5px 10px black);}
+    from {background-color: #F2CC8F;}
+    to {background-color:#606278;}
 }
 
 
@@ -153,7 +151,7 @@ img {
     height: 75px;
     display: flex;
     align-items: center;
-    margin: 15px;
+    margin: 30px 0px 10px;
 }
 
 #message {
@@ -163,13 +161,37 @@ img {
     background-color:#F2CC8F;
     animation-name: message;
     animation-duration: 2s;
-    animation-iteration-count: infinite;
+    animation-iteration-count: infinite, 1;
 }
 
 @keyframes message {
-    0% {font-size: 30px; transform: rotate(0deg);}
-    25% {font-size: 40px; transform: rotate(8deg);}
-    50% {font-size: 30px; transform: rotate(0deg);}
-    75% {font-size: 40px; transform: rotate(-8deg);}
-    100% {font-size: 30px; transform: rotate(0deg);}
+    0% {font-size: 30px; transform: rotate(0deg); background-color:cyan;}
+    25% {font-size: 40px; transform: rotate(8deg); background-color: rgb(253, 140, 248);}
+    50% {font-size: 30px; transform: rotate(0deg); background-color: rgb(146, 255, 146);}
+    75% {font-size: 40px; transform: rotate(-8deg); background-color: rgb(248, 255, 156);}
+    100% {font-size: 30px; transform: rotate(0deg); background-color: cyan;}
+}
+
+@keyframes fade {
+    from {height:75px;}
+    to {height:0px;}
+}
+
+@keyframes textfade {
+    from {font-size:30px; border-width: 5px;}
+    to {font-size: 0px; border-width: 0px;}
+}
+
+@keyframes test {
+    from {background-color:red}
+    to {background-color: blue;}
+}
+
+#backimg {
+    height: 40px;
+    width:auto;
+}
+
+#backspace {
+    padding:1px 0px;
 }

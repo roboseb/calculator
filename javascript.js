@@ -102,6 +102,8 @@ buttons.forEach(button => {
     });
 });
 
+let sClicks = 0;
+
 //Keyboard support.
 document.addEventListener('keydown' , key => {
     let text = result.innerText;
@@ -163,7 +165,23 @@ document.addEventListener('keydown' , key => {
             emote = "angry";
         }
         result.innerText = text.slice(0,text.length-1);
-    
+       
+    //Pump easter egg.    
+    } else if (key.key === 's') {
+        let imgbox = document.getElementById('imgbox');
+        imgbox.style.width = `${90+sClicks*2}px`;
+        imgbox.style.height = `${90+sClicks*2}px`;
+        for (let i = 0; i < imgbox.children.length; i++) {
+            let currentPump = imgbox.children[i];
+            let currentClass = currentPump.className;
+            let currentPumps = document.getElementsByClassName(currentClass);
+            console.log(currentPumps)
+            currentPumps[0].style.width = `${80+sClicks*2}px`;
+            currentPumps[1].style.width = `${80+sClicks*2}px`;
+            currentPumps[0].style.height = `${80+sClicks*2}px`;
+            currentPumps[1].style.height = `${80+sClicks*2}px`;
+        }
+        sClicks++;
     }
 });
 
@@ -226,10 +244,69 @@ function process(equation) {
    
 }
 
+//Animate on screen keys on keypress. If I was rebuilding
+//this entire project, this listener would be in the
+//other keypress listener.
+document.addEventListener('keydown', key => {
+    
+    let currentKey;
+    if (!isNaN(key.key) || key.key === ".") {
+        currentKey = document.getElementById(key.key);
+        currentKey.style.animationName = "numberhover";
+    } else if (key.key === 'Delete') {
+        currentKey = document.getElementById('ac');
+        currentKey.style.animationName = "acequalshover";
+    } else if (key.key === 'Enter') {
+        currentKey = document.getElementById('equals');
+        currentKey.style.animationName = "acequalshover";
+    } else if (key.key === '+' || key.key === '-') {
+        currentKey = document.getElementById(key.key);
+        currentKey.style.animationName = "operatorhover";
+    } else if (key.key === '/') {
+        currentKey = document.getElementById('÷');
+        currentKey.style.animationName = "operatorhover";
+    } else if (key.key === '*') {
+        currentKey = document.getElementById('×');
+        currentKey.style.animationName = "operatorhover";
+    } else if (key.key === 'Backspace') {
+        currentKey = document.getElementById('backspace');
+        currentKey.style.animationName = "operatorhover";
+    }
+    if (currentKey) {
+        currentKey.style.animationDuration = "0.25s";
+        setTimeout(() => {currentKey.style.animationName = null}, 250);
+    }
+
+});
+
+//Close welcome message on click.
+let message = document.getElementById('message');
+let messagebox = document.getElementById('messagebox');
+message.addEventListener('click', () => {
+    messagebox.style.animationName = "fade";
+    messagebox.style.animationDuration = "1s";
+    messagebox.style.height="0px";
+    message.style.animationName = "message ,textfade";
+    message.style.animationDuration = "2s,1s";
+    message.innerText = "I hope my death brings you joy..."
+    setTimeout(() => {message.style.display = "none"} , 1000);
+});
+
+let messages = ["Now with keyboard support!", 
+                "Featuring a stolen color palette!",
+                "Loot at that cute little guy!",
+                "Why not divide by zero?",
+                "He's not angry, it's just sharpie!",
+                "Better than your calculator project!",
+                "Don't look too closely at the code!",
+                "document.getElementById('message')"]
+
+message.innerText = messages[Math.floor(Math.random() * messages.length)];
+
 let allPumps = document.querySelectorAll('img');
 
 for (let i = 0; i < allPumps.length; i++) {
-    allPumps[i].style.display = "none";
+    if (!allPumps[i].id) {allPumps[i].style.display = "none"}
 }
 
 let pumps = document.getElementsByClassName('default');
@@ -240,11 +317,16 @@ let emote = 'default';
 
 
 function carousel() {
+    //Easter egg
+    if (emote === "error" && message.innerText === "Why not divide by zero?") {
+        message.innerText = "Pretty cool, huh?";
+    }
+
     let i;
     let pumps = document.getElementsByClassName(`${emote}`);
     let allPumps = document.querySelectorAll('img');
     for (i = 0; i < allPumps.length; i++) {
-        allPumps[i].style.display = "none";
+        if (!allPumps[i].id) {allPumps[i].style.display = "none"}
     }
     slideIndex++;
     if (slideIndex > pumps.length) {slideIndex = 1}
@@ -255,10 +337,12 @@ function carousel() {
 
 carousel();
 
-//Close welcome message on click.
-let message = document.getElementById('message');
-message.addEventListener('click', () => {
-    message.style.display = "none";
+//Easter egg for pump colour on clicks.
+let timesClicked = 0;
+document.getElementById('imgbox').addEventListener('click', () => {
+    if (timesClicked === 0) {document.getElementById('imgbox').style.backgroundColor = 'teal'}
+    timesClicked++;
+    document.getElementById('imgbox').style.filter = `hue-rotate(${timesClicked * 5}deg)`;
 });
 
 
